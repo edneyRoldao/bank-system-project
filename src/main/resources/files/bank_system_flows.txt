@@ -1,0 +1,133 @@
+| ANALISE FLUXO BANK SYSTEM |
+-----------------------------
+
+
+## AUXILIAR --------------------------------------------------------------------
+
+
+VerificarContaAtiva:
+        - Verificar se o campo deactivation_dt na tabela bank_account está nulo
+
+
+Transactions:
+        - Montar objeto transaction com os dados da operacao
+        - SalvarHistoricoTransacao*
+
+
+AutenticarCliente:
+        - Autenticar*
+        - Validar senha
+                - Validar tentativas senha inválida (até x tentativas)
+                        - Transactions#
+                        - Bloquear conta por horas de acordo com tentativas
+
+
+## PRINCIPAL --------------------------------------------------------------------
+
+
+Sacar:
+        - AutenticarCliente #
+        - VerificarContaAtiva #
+        - Valida se tem saldo
+        - Subtrair saldo
+        - AtualizarSaldo*
+        - Transactions#
+
+
+InativarConta:
+        - AutenticarCliente #
+        - VerificarContaAtiva #
+        - Validar saldo - tem que estar com a conta zerada
+        - InativarConta*
+        - Transactions#
+
+
+AtivarConta:
+        - AutenticarCliente #
+        - AtivarConta*
+        - Transactions#
+
+
+Extrato:
+        - AutenticarCliente #
+        - VerificarContaAtiva #
+        - Solicitar dt inicio e dt fim para usuario
+        - ListarTransacoes*
+        - Montar o resultado da tabela acima em uma lista
+        - Transactions#
+
+
+Transferencia:
+        - AutenticarCliente #
+        - VerificarContaAtiva # conta origem
+        - Verifcar se conta destino existe
+        - VerificarContaAtiva # conta destino
+        - Valida se tem saldo conta origem
+        - Subtrair saldo conta origem
+        - AtualizarSaldo*
+        - Transactions#
+        - Somar saldo conta destino
+        - AtualizarSaldo*
+        - Transactions#
+
+
+CadastroConta:
+        - Solicitar cpf/cnpj pra verifcar se já possuí conta
+                - Se tem conta e ativa, informa que o cliente já possui uma conta
+                - Se tem conta e inativa, perguntar se cliente quer reativar
+        - Solicitar dados cliente:
+                - Email
+                - Nome completo
+                - Data nascimento
+                - Endereco (dados separados por virgula)
+                - Tipo pessoa
+                - Telefone
+        - Solicitar dados acesso cliente
+                - Senha
+        - CadastroConta*
+        - CadastroCliente*
+        - CadastroAcesso*
+        - CadastroEndereco*
+        - Solicitar valor primeiro deposito
+                - Transactions#
+
+
+Deposito:
+        - VerificarContaAtiva #
+        - Somar saldo conta
+        - AtualizarSaldo*
+        - Transactions#
+
+
+Saldo:
+        - AutenticarCliente #
+        - VerificarContaAtiva #
+        - Retornar saldo para cliente
+        - Transactions#
+
+
+QUERIES:
+        - Autenticar:                   buscar cliente por senha, conta e agencia na tabela bank_account e access
+        - AtualizarSaldo:               faz update do saldo na tabela bank_account pelo numero da conta e numero da agencia
+        - InativarConta:                update na tabela bank_account, set a data atual no campo: deactivation_dt
+        - AtivarConta:                  update na tabela bank_account, deixar nulo o campo: deactivation_dt
+        - SalvarHistoricoTransacao:     inserir dados na tabela transactions
+        - ListarTransacoes:             buscar dados na tabela transacoes a partir de: dtInico, dtFim, numeroConta, agencia
+                                        * nao listar as operacoes (tentativas e bloqueios)
+        - CadastroConta:                inserir registro na tabela bank_account com os dados fornecidos
+        - CadastroEndereco:             inserir registro na tabela address com os dados fornecidos
+        - CadastroCliente:              inserir registro na tabela client com os dados fornecidos
+        - CadastroAcesso:               inserir registro na tabela access com os dados fornecidos
+
+
+Ajustes/Observacoes:
+        - Add um campo(uma data futura) na tabela access para bloquear acesso temporariamente.
+
+
+----------------------------------------------------------------------------------------------
+
+
+Extras:
+        - Validar horario operacoes
+        - Agendar transferencia
+        - Solicitar Emprestimo
