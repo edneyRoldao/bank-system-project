@@ -112,12 +112,13 @@ QUERIES:
         - InativarConta:                update na tabela bank_account, set a data atual no campo: deactivation_dt
         - AtivarConta:                  update na tabela bank_account, deixar nulo o campo: deactivation_dt
         - SalvarHistoricoTransacao:     inserir dados na tabela transactions
-        - ListarTransacoes:             buscar dados na tabela transacoes a partir de: dtInico, dtFim, numeroConta, agencia
-                                        * nao listar as operacoes (tentativas e bloqueios)
         - CadastroConta:                inserir registro na tabela bank_account com os dados fornecidos
         - CadastroEndereco:             inserir registro na tabela address com os dados fornecidos
         - CadastroCliente:              inserir registro na tabela client com os dados fornecidos
         - CadastroAcesso:               inserir registro na tabela access com os dados fornecidos
+        - ListarTransacoes:             buscar dados na tabela transacoes a partir de: dtInico, dtFim, numeroConta, agencia
+                                        * nao listar as operacoes (tentativas e bloqueios)
+
 
 
 Ajustes/Observacoes:

@@ -66,4 +66,6 @@ FOREIGN KEY (account_id) REFERENCES bank_account (id)
 ALTER TABLE access ADD COLUMN client_block DATETIME AFTER password;
 ALTER TABLE client CHANGE COLUMN person_tp person_tp ENUM('PF', 'PJ') NOT NULL  DEFAULT 'PF';
 ALTER TABLE client CHANGE COLUMN document_tp document_tp ENUM('CPF', 'CNPJ') NOT NULL  DEFAULT 'CPF';
-ALTER TABLE transactions CHANGE COLUMN operation operation ENUM('ENTRADA', 'SAIDA') NOT NULL;
+ALTER TABLE transactions CHANGE COLUMN operation operation ENUM('ENTRADA', 'SAIDA', 'ACESSO') NOT NULL;
+
+ALTER TABLE transactions CHANGE COLUMN transaction_tp transaction_tp VARCHAR(30) NOT NULL;
