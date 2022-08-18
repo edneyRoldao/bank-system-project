@@ -1,9 +1,13 @@
 package com.banksystem.banksystem.services;
 
+import com.banksystem.banksystem.models.Address;
+
+import java.util.Optional;
+
 public interface AddressService {
 
-    void createAddress(String address);
+    void createAddress(Address address);
 
-    boolean isAddressValid(String address);
+    Optional<Address> buildAddress(String address);
 
 }

@@ -1,9 +1,11 @@
 package com.banksystem.banksystem;
 
+import com.banksystem.banksystem.models.Address;
 import com.banksystem.banksystem.services.AddressService;
 import com.banksystem.banksystem.services.impl.AddressServiceImpl;
 
 import java.util.InputMismatchException;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class BankSystemStartApplication {
@@ -27,14 +29,15 @@ public class BankSystemStartApplication {
 				System.out.println("formato: rua, numero, cidade, estado, cep, complemento(opcional)");
 				System.out.println("exemplo: rua arnaldo, 22, São Paulo, SP, 02577000, casa 1");
 
-				String address = new Scanner(System.in).nextLine();
-				boolean result = addressService.isAddressValid(address);
+				String addressString = new Scanner(System.in).nextLine();
+				Optional<Address> addressOpt = addressService.buildAddress(addressString);
 
-				if (!result) {
-					System.out.println("endereco invalido");
+				if (addressOpt.isEmpty()) {
+					System.out.println("endereco inválido");
 					return;
 				}
 
+				Address address = addressOpt.get();
 				addressService.createAddress(address);
 
 				break;
