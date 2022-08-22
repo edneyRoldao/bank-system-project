@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface AddressService {
 
-    void createAddress(Address address);
+    Address createAddress(Address address);
 
     Optional<Address> buildAddress(String address);
 

@@ -1,6 +1,7 @@
 package com.banksystem.banksystem;
 
 import com.banksystem.banksystem.models.Address;
+import com.banksystem.banksystem.repositories.impl.AddressRepositoryImpl;
 import com.banksystem.banksystem.services.AddressService;
 import com.banksystem.banksystem.services.impl.AddressServiceImpl;
 
@@ -24,7 +25,7 @@ public class BankSystemStartApplication {
 
 		switch (option) {
 			case 1:
-				AddressService addressService = new AddressServiceImpl();
+				AddressService addressService = new AddressServiceImpl(new AddressRepositoryImpl());
 				System.out.println("Informe seu endereço:");
 				System.out.println("formato: rua, numero, cidade, estado, cep, complemento(opcional)");
 				System.out.println("exemplo: rua arnaldo, 22, São Paulo, SP, 02577000, casa 1");

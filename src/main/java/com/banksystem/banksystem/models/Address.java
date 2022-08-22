@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class Address implements Serializable {
 
     private Long id;
-    private String cep;
+    private Integer cep;
     private String city;
     private String state;
     private String address;

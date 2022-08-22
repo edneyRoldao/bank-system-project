@@ -1,15 +1,24 @@
 package com.banksystem.banksystem.services.impl;
 
 import com.banksystem.banksystem.models.Address;
+import com.banksystem.banksystem.repositories.AddressRepository;
 import com.banksystem.banksystem.services.AddressService;
 
 import java.util.Optional;
 
 public class AddressServiceImpl implements AddressService {
 
+    private final AddressRepository addressRepository;
+
+    public AddressServiceImpl(AddressRepository addressRepository) {
+        this.addressRepository = addressRepository;
+    }
+
     @Override
-    public void createAddress(Address address) {
-        // universidade XTI (110, 111, 112, 113)
+    public Address createAddress(Address address) {
+        Long idEnderecoCriado = addressRepository.insertAddress(address);
+        address.setId(idEnderecoCriado);
+        return address;
     }
 
     @Override
@@ -38,16 +47,20 @@ public class AddressServiceImpl implements AddressService {
         if (estado.length() != 2)
             return Optional.empty();
 
-        if (cep.length() != 8)
+        if (!cep.matches("\\d{8}"))
             return Optional.empty();
 
         // validando complemento (address_2)
-        if (token.length == 6 && token[5].length() > 30)
-            return Optional.empty();
+        if (token.length == 6) {
+            if (token[5].length() > 30)
+                return Optional.empty();
+            else
+                complemento = token[5].trim();
+        }
 
         Address addressObj = new Address();
         addressObj.setAddress(rua);
-        addressObj.setCep(cep);
+        addressObj.setCep(Integer.parseInt(cep));
         addressObj.setSecondAddress(complemento);
         addressObj.setCity(cidade);
         addressObj.setState(estado);
