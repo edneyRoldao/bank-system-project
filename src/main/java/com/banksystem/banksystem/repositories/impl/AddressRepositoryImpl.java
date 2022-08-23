@@ -39,7 +39,6 @@ public class AddressRepositoryImpl implements AddressRepository {
             e.printStackTrace();
         }
 
-
         return null;
     }
 
@@ -49,13 +48,16 @@ public class AddressRepositoryImpl implements AddressRepository {
         String user = ApplicationProperties.DB_USERNAME;
         String pass = ApplicationProperties.DB_PASSWORD;
 
-
         try {
             Connection connection = DriverManager.getConnection(url, user, pass);
             PreparedStatement statement = connection.prepareStatement(NEXT_ADDRESS_ID_SQL);
             ResultSet resultSet = statement.executeQuery();
-            long nextId = resultSet.getLong("auto_increment");
-            addressId = nextId - 1;
+
+            while (resultSet.next()) {
+                long nextId = resultSet.getLong("AUTO_INCREMENT");
+                addressId = nextId - 1;
+            }
+
             connection.close();
 
         } catch (SQLException e) {
