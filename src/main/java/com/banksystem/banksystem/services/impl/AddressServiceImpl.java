@@ -16,9 +16,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Address createAddress(Address address) {
-        Long idEnderecoCriado = addressRepository.insertAddress(address);
-        address.setId(idEnderecoCriado);
-        return address;
+        return addressRepository.createAddress(address);
     }
 
     @Override

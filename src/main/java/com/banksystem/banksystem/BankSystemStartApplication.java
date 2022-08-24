@@ -1,9 +1,12 @@
 package com.banksystem.banksystem;
 
 import com.banksystem.banksystem.models.Address;
+import com.banksystem.banksystem.models.Client;
 import com.banksystem.banksystem.repositories.impl.AddressRepositoryImpl;
 import com.banksystem.banksystem.services.AddressService;
+import com.banksystem.banksystem.services.ClientService;
 import com.banksystem.banksystem.services.impl.AddressServiceImpl;
+import com.banksystem.banksystem.services.impl.ClientServiceImpl;
 
 import java.util.InputMismatchException;
 import java.util.Optional;
@@ -25,12 +28,17 @@ public class BankSystemStartApplication {
 
 		switch (option) {
 			case 1:
+				Scanner input = new Scanner(System.in);
+				ClientService clientService = new ClientServiceImpl();
 				AddressService addressService = new AddressServiceImpl(new AddressRepositoryImpl());
+
+				// address
+				/////////////////////////////////////////////////////////////////////////////////////////////////////
 				System.out.println("Informe seu endereço:");
 				System.out.println("formato: rua, numero, cidade, estado, cep, complemento(opcional)");
 				System.out.println("exemplo: rua arnaldo, 22, São Paulo, SP, 02577000, casa 1");
 
-				String addressString = new Scanner(System.in).nextLine();
+				String addressString = input.nextLine();
 				Optional<Address> addressOpt = addressService.buildAddress(addressString);
 
 				if (addressOpt.isEmpty()) {
@@ -39,7 +47,27 @@ public class BankSystemStartApplication {
 				}
 
 				Address address = addressOpt.get();
-				addressService.createAddress(address);
+				Address addressSaved = addressService.createAddress(address);
+
+				// client
+				/////////////////////////////////////////////////////////////////////////////////////////////////////
+				System.out.println("Informe dados do cliente:");
+				System.out.println("formato: nome, email, telefone, documento, data nascimento(dd/MM/yyyy)");
+				String dadosCliente = input.nextLine();
+
+				Optional<Client> clientOptional = clientService.validateAndBuildClient(dadosCliente);
+
+				while (clientOptional.isEmpty()) {
+					System.out.println("### Dados do cliente inválido ### - Informe dados do cliente:");
+					dadosCliente = new Scanner(System.in).nextLine();
+					clientOptional = clientService.validateAndBuildClient(dadosCliente);
+				}
+
+				Client client = clientOptional.get();
+				client.setAddressId(address.getId());
+				Client clientSaved = clientService.createClient(client);
+
+				// todo - criar repositorio e servico para criacao da conta bancaria
 
 				break;
 			case 2:

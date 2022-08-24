@@ -1,13 +1,13 @@
 package com.banksystem.banksystem.test;
 
 import com.banksystem.banksystem.models.Address;
-import com.banksystem.banksystem.utils.ApplicationProperties;
 import lombok.SneakyThrows;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
+import static com.banksystem.banksystem.config.DatabaseConfig.getConnection;
 
 public class TesteInsertAddress {
 
@@ -22,7 +22,7 @@ public class TesteInsertAddress {
         Connection connection = getConnection();
 
         // enreco fake para teste
-        var address = new Address(null, 22343030, "Rio Grande do Sul", "SP", "rua mere mere", 472, "apto 8");
+        var address = new Address(null, 22343030, "Rio Grande do Norte", "SP", "rua mere mere", 472, "apto 8");
 
         // nossa query
         String QUERY = "INSERT INTO address (city, state, address, house_number, cep, address_2) VALUES (?,?,?,?,?,?)";
@@ -38,9 +38,13 @@ public class TesteInsertAddress {
         stmt.setInt(5, address.getCep());
         stmt.setString(6, address.getSecondAddress());
 
+        // executando a query
         stmt.executeUpdate();
 
+        // obtendo o id que foi criado
         Long addressId = getCreatedAddressId();
+
+
         address.setId(addressId);
 
         System.out.println(address);
@@ -50,6 +54,7 @@ public class TesteInsertAddress {
     static Long getCreatedAddressId() {
         long id = 0;
         Connection connection = getConnection();
+
         String QUERY = "SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'DB_BANK_SYSTEM' AND TABLE_NAME = 'address'";
         PreparedStatement stmt = connection.prepareStatement(QUERY);
         ResultSet resultSet = stmt.executeQuery();
@@ -59,14 +64,6 @@ public class TesteInsertAddress {
         }
 
         return id - 1;
-    }
-
-    @SneakyThrows
-    static Connection getConnection() {
-        String user = ApplicationProperties.DB_USERNAME;
-        String pass = ApplicationProperties.DB_PASSWORD;
-        String url = ApplicationProperties.DB_CONNECTION;
-        return DriverManager.getConnection(url, user, pass);
     }
 
 }
