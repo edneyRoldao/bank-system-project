@@ -2,6 +2,7 @@ package com.banksystem.banksystem.services.impl;
 
 import com.banksystem.banksystem.models.Address;
 import com.banksystem.banksystem.repositories.AddressRepository;
+import com.banksystem.banksystem.repositories.impl.AddressRepositoryImpl;
 import com.banksystem.banksystem.services.AddressService;
 
 import java.util.Optional;
@@ -10,8 +11,8 @@ public class AddressServiceImpl implements AddressService {
 
     private final AddressRepository addressRepository;
 
-    public AddressServiceImpl(AddressRepository addressRepository) {
-        this.addressRepository = addressRepository;
+    public AddressServiceImpl() {
+        this.addressRepository = new AddressRepositoryImpl();
     }
 
     @Override

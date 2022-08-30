@@ -1,6 +1,5 @@
 package com.banksystem.banksystem.config;
 
-import com.banksystem.banksystem.utils.ApplicationProperties;
 import lombok.SneakyThrows;
 
 import java.sql.Connection;

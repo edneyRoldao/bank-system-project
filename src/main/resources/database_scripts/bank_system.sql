@@ -109,8 +109,7 @@ VALUES ('Ricardo Silva', '2001-07-02', 11981742639, 'ricardoslv@ig.br', 97531975
 INSERT INTO bank_account (account_number, client_id, balance, registration_dt)
 VALUES (201, 1, 20000, '2019-02-01');
 
-INSERT INTO bank_account (account_number, client_id, registration_dt, balance)
-VALUES (202, 2, '2022-08-03', 545.38);
+INSERT INTO bank_account (account_number, client_id, registration_dt, balance) VALUES (202, 2, '2022-08-03', 545.38);
 
 INSERT INTO bank_account (account_number, client_id, balance, registration_dt, account_tp)
 VALUES (203, 3, 1745.88, '2022-08-03', 'INVESTIMENTO');

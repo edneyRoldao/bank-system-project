@@ -3,6 +3,8 @@ package com.banksystem.banksystem.services.impl;
 import com.banksystem.banksystem.enums.DocumentType;
 import com.banksystem.banksystem.enums.PersonType;
 import com.banksystem.banksystem.models.Client;
+import com.banksystem.banksystem.repositories.ClientRepository;
+import com.banksystem.banksystem.repositories.impl.ClientRepositoryImpl;
 import com.banksystem.banksystem.services.ClientService;
 import com.banksystem.banksystem.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -11,6 +13,12 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 public class ClientServiceImpl implements ClientService {
+
+    private final ClientRepository clientRepository;
+
+    public ClientServiceImpl() {
+        this.clientRepository = new ClientRepositoryImpl();
+    }
 
     @Override
     public Optional<Client> validateAndBuildClient(String clientAsString) {
@@ -57,7 +65,7 @@ public class ClientServiceImpl implements ClientService {
                 .personType(PersonType.PF)
                 .birthdate(dataNascimento)
                 .documentType(DocumentType.CPF)
-                .phone(Integer.parseInt(telefone))
+                .phone(telefone)
                 .build();
 
         return Optional.of(client);
@@ -65,7 +73,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client createClient(Client client) {
-        return null;
+        return clientRepository.createClient(client);
     }
 
 }
