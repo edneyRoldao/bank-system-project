@@ -7,8 +7,6 @@ import lombok.SneakyThrows;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import static com.banksystem.banksystem.config.DatabaseConfig.getConnection;
 
@@ -28,29 +26,9 @@ public class ClientRepositoryImpl implements ClientRepository {
         stmt.setLong(6, client.getAddressId());
         stmt.executeUpdate();
 
-        client.setId(getClientId());
+        client.setId(getId("client"));
 
         return client;
-    }
-
-    private long getClientId() {
-        long clientId = 0;
-
-        try {
-            Connection connection = getConnection();
-            PreparedStatement statement = connection.prepareStatement(NEXT_CLIENT_ID_SQL);
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                long nextId = resultSet.getLong("AUTO_INCREMENT");
-                clientId = nextId - 1;
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return clientId;
     }
 
 }

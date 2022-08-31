@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Data
 @Builder
@@ -31,5 +32,13 @@ public class BankAccount implements Serializable {
     private AccountType accountType;
     private LocalDateTime registrationDate;
     private LocalDateTime deactivationDate;
+
+    public boolean isAccountActive() {
+        return Objects.isNull(deactivationDate);
+    }
+
+    public boolean isAccountNotActive() {
+        return !isAccountActive();
+    }
 
 }

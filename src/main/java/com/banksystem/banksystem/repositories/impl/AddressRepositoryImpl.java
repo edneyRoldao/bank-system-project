@@ -5,7 +5,6 @@ import com.banksystem.banksystem.repositories.AddressRepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static com.banksystem.banksystem.config.DatabaseConfig.getConnection;
@@ -27,7 +26,7 @@ public class AddressRepositoryImpl implements AddressRepository {
             stmt.setString(6, address.getSecondAddress());
             stmt.executeUpdate();
 
-            long id = getAddressId();
+            long id = getId("address");
 
             address.setId(id);
 
@@ -38,26 +37,6 @@ public class AddressRepositoryImpl implements AddressRepository {
         }
 
         return null;
-    }
-
-    private long getAddressId() {
-        long addressId = 0;
-
-        try {
-            Connection connection = getConnection();
-            PreparedStatement statement = connection.prepareStatement(NEXT_ADDRESS_ID_SQL);
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                long nextId = resultSet.getLong("AUTO_INCREMENT");
-                addressId = nextId - 1;
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return addressId;
     }
 
 }

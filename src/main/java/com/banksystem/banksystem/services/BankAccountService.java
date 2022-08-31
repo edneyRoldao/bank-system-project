@@ -11,4 +11,8 @@ public interface BankAccountService {
 
     BankAccount createBankAccount(BankAccount bankAccount);
 
+    Optional<BankAccount> getAccount(Integer agency, Long accountNumber);
+
+    void deposit(BankAccount bankAccount, double amount);
+
 }
