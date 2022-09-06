@@ -51,17 +51,18 @@ public class BankSystemStartApplication {
 				SecondOption.deposito(app);
 				break;
 			case 3:
-				System.out.println("Sacar - em costrucao");
+				ThirdOption.sacar(app);
+				break;
 			case 9:
 				System.out.println("##########################################");
 				System.out.println("Obrigado por usar esta simplório programa.");
 				System.out.println("##########################################");
 				break;
 		}
-
 	}
 
 	private static int showAndGetMenuOption() {
+
 		System.out.println("####################################################");
 		System.out.println("####################################################");
 		System.out.println("---------------- BANK SYSTEM MENU -------------------");
